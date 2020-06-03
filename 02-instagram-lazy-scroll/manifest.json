@@ -1,0 +1,32 @@
+{
+    "name": "Instagram Lazy Scroll",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Automatically scrolls instagram for you",
+    "icons": {
+        "16": "icons/icon16.png",
+        "19": "icons/icon19.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "*://*.instagram.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.instagram.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "injection.js",
+        "hud.css"
+    ]
+}

@@ -1,2 +1,3 @@
-# video-screengrab
-Chrome extension to grab a frame of the video
+# 52Extensions
+Making Chrome extensions for fun.
+Targetting 1 per week and 52 per year.

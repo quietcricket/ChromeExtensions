@@ -1,0 +1,1 @@
+document.querySelector('.btn-close').addEventListener('click', evt => window.close());
