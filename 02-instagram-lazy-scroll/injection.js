@@ -7,7 +7,8 @@ class InstagramLazyScroll {
         this.article = null;
         window.addEventListener('keydown', evt => this.onKeydown(evt));
         this.lastScrollTime = null;
-        this.speed = parseInt(localStorage.getItem('speed', '4'));
+        this.speed = parseInt(localStorage.getItem('speed'));
+        if (isNaN(this.speed)) this.speed = 8;
         let ele = document.createElement('div');
 
         ele.className = '__instagram_lazy_scroll';

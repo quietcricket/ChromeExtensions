@@ -1,0 +1,20 @@
+.__instagram_show_time {
+    flex-direction: row;
+    margin-top: 2px;
+    font-size: 0.8em;
+    color: black;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.__instagram_show_time svg {
+    height: 0.8em;
+    width: auto;
+    margin-left: 5px;
+}
+
+.__instagram_show_time .location {
+    max-width: 40%;
+    overflow: hidden;
+    white-space: nowrap;
+}

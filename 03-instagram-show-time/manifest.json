@@ -1,8 +1,8 @@
 {
-    "name": "Video Screen Grabber",
-    "version": "0.0.2",
+    "name": "Instagram Show Time",
+    "version": "0.0.1",
     "manifest_version": 2,
-    "description": "Screen grab/capture the current frame of video elements of websites. Works for video conference calls, too.",
+    "description": "This extension displays posts' date (time) upfront so you don't need to click to view the details.",
     "icons": {
         "16": "icons/icon16.png",
         "19": "icons/icon19.png",
@@ -13,23 +13,20 @@
         "default_icon": "icons/icon128.png"
     },
     "permissions": [
-        "<all_urls>"
+        "*://*.instagram.com/*"
     ],
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "https://*.instagram.com/*"
             ],
-            "all_frames": true,
             "js": [
                 "content.js"
             ]
         }
     ],
-    "background": {
-        "scripts": [
-            "background.js"
-        ]
-    }
-
+    "web_accessible_resources": [
+        "injection.js",
+        "injection.css"
+    ]
 }
