@@ -1,0 +1,52 @@
+.container {
+    max-width: 800px;
+}
+
+h1 {
+    font-family: "Concert One";
+}
+
+.quote {
+    font-size: 30px;
+    width: 400px;
+    height: 400px;
+    line-height: 1.2;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.quote.big {
+    width: 800px;
+    height: 800px;
+    padding: 50px;
+}
+
+.quote.dark {
+
+    color: white;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.quote.light {
+    color: #333;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+#fontSize:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.fa {
+    font-size: 0.8em;
+}
+
+svg {
+    display: block;
+    font: 8em 'Concert One';
+    height: 100px;
+    margin: 0 auto;
+}

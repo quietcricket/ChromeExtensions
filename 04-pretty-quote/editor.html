@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="editor.css">
+    <title>Pretty Quote</title>
+
+</head>
+
+<body>
+    <div class="container pt-5">
+        <h1 class="text-center mb-5 text-muted">Pretty Quote</h1>
+        <div class="row">
+            <div class="quote-holder col">
+                <div class="quote"> </div>
+            </div>
+            <div class="editor col">
+                <div class="btn-group mb-2 d-flex align-holder ">
+                    <i class="btn btn-secondary fa fa-align-left" data= "left"></i>
+                    <i class="btn btn-secondary fa fa-align-center active" data="center"></i>
+                    <i class="btn btn-secondary fa fa-align-right" data="right"></i>
+                    <i class="btn btn-secondary fa fa-align-justify" data="justify"></i>
+                </div>
+                <select id="fontFamily" class="form-control mb-2"></select>
+                <textarea id="text" class="form-control" rows="5"></textarea>
+                <input type="range" id="fontSize" value="20" min="12" max="60" class="form-control px-0" />
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary btn-sm btn-bg">Change Background</button>
+                    <button class="btn btn-primary btn-sm btn-download">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="gradients.js"></script>
+    <script src="editor.js"></script>
+    <script src="html2canvas.min.js"></script>
+</body>
+
+</html>
