@@ -1,0 +1,10 @@
+{
+    "appDesc": {
+        "description": "App Description",
+        "message": "Convert between simplified and traditional Chinese characters"
+    },
+    "appName": {
+        "description": "App Name",
+        "message": "Simplified Traditional Chinese Converter"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "appDesc": {
+        "description": "App Description",
+        "message": "简体繁体汉字转换"
+    },
+    "appName": {
+        "description": "App Name",
+        "message": "简繁汉字转换"
+    }
+}

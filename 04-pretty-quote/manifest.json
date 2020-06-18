@@ -1,6 +1,6 @@
 {
     "name": "Pretty Quote",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "manifest_version": 2,
     "description": "Turn text into a pretty image so you can share it beautifully and easily",
     "icons": {
