@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="reset.css" rel="stylesheet" />
+    <link href="reader.css" rel="stylesheet" />
+    <style id="readermode-css"></style>
+</head>
+
+<body>
+    <div class="readermode-holder">
+        <div class="control-panel">
+            <div class="control-panel-inner">
+                <label>Width: <input type="range" min="400" max="1000" id="readermode-width" /></label>
+                <label>Font Size: <input type="range" min="12" max="30" id="readermode-fontSize" /> </label>
+                <label>Line Height: <input type="range" min="1.2" max="3" step="0.1" id="readermode-lineHeight" /> </label>
+                <label>Font: <select id="readermode-fontFamily"></select></label>
+                <label>Auto Activate: <input type="checkbox" id="readermode-autoMode" /></label>
+            </div>
+        </div>
+        <div class="readermode-inner"></div>
+    </div>
+    <script src="reader.js"> </script>
+</body>
+
+</html>
