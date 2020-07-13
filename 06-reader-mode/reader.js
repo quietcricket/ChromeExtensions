@@ -15,7 +15,6 @@ let currUrl = '';
 function cleanImages() {
     setTimeout(() => {
         for (let img of document.querySelectorAll('img')) {
-            console.log(img.getAttribute('datasrc'));
             if (img.getAttribute('data-src')) img.setAttribute('src', img.getAttribute('data-src'));
             if (img.getAttribute('datasrc')) img.setAttribute('src', img.getAttribute('datasrc'));
             if (img.getAttribute('data-srcset')) img.setAttribute('srcset', img.getAttribute('data-srcset'));
@@ -47,10 +46,10 @@ function settingChanged(evt) {
             inner.style[attr] = value + 'px';
             break;
         case 'fontFamily':
-            document.querySelector('#readermode-css').innerHTML += `.readermode-inner * { font-family: ${value};}`;
+            document.querySelector('#readermode-css').innerHTML += `.readermode-inner * { font-family: ${value};}\n`;
             break;
         case 'lineHeight':
-            document.querySelector('#readermode-css').innerHTML += `.readermode-inner .p, .readermode-inner p { line-height: ${value};}`;
+            document.querySelector('#readermode-css').innerHTML += `.readermode-inner .p, .readermode-inner p { line-height: ${value};}\n`;
             break;
         case 'autoMode':
             if (evt.target.checked) {
@@ -64,7 +63,6 @@ function settingChanged(evt) {
     if (evt.type) {
         let obj = {};
         obj[attr] = value;
-        console.log(obj);
         chrome.storage.local.set(obj);
     }
 }
@@ -97,6 +95,7 @@ function initContent(data) {
         h1.innerHTML = data.title;
         inner.prepend(h1);
     }
+
     if (!data.autoMode) { urls = []; } else {
         urls = data.autoMode.split(',');
     }
@@ -112,7 +111,6 @@ function initContent(data) {
     if (urls.includes(currUrl)) {
         data.autoMode = '1';
     }
-    cleanImages();
     initControlPanel(data);
 }
 
