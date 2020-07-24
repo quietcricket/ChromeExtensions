@@ -1,5 +1,5 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.captureVisibleTab(null, { format: "png" }, data => chrome.tabs.sendMessage(tab.id, { src: data }));
+    chrome.tabs.sendMessage(tab.id, { action: 'adjust-layout' });
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, resp) {

@@ -20,9 +20,10 @@ class LocalServer(Server):
             })]
 
 
-def resize_icon(filename):
-    folder = os.path.dirname(filename)
-    img = Image.open(filename)
+def resize_icon(folder):
+
+    folder = os.path.join(folder, 'icons')
+    img = Image.open(os.path.join(folder, 'icon512.png'))
     for s in [128, 48, 19, 16]:
         img.thumbnail((s, s), Image.ANTIALIAS)
         img.save(f'{folder}/icon{s}.png', 'PNG')

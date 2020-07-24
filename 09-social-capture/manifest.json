@@ -1,8 +1,8 @@
 {
-    "name": "Capture Tweet",
+    "name": "Twitter & FB Capture",
     "version": "0.0.3",
     "manifest_version": 2,
-    "description": "Make a screen grab of a tweet.",
+    "description": "Capture screenshots of Twitter and Facebook posts.",
     "icons": {
         "16": "icons/icon16.png",
         "19": "icons/icon19.png",
@@ -13,12 +13,15 @@
         "default_icon": "icons/icon128.png"
     },
     "permissions": [
+        "https://www.facebook.com/*",
         "https://twitter.com/*",
-        "activeTab"
+        "activeTab",
+        "contextMenus"
     ],
     "content_scripts": [
         {
             "matches": [
+                "https://www.facebook.com/*",
                 "https://twitter.com/*"
             ],
             "js": [
