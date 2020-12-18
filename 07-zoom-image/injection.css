@@ -1,0 +1,61 @@
+.zoom-img-chrome-extension {
+    position: fixed;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.zoom-img-chrome-extension .zoom-img-holder img {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50vw;
+    top: calc(50vh - 20px);
+    -webkit-user-drag: none;
+    cursor: grab;
+}
+
+.zoom-img-chrome-extension .zoom-btns-holder {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    position: absolute;
+    bottom: 10px;
+}
+
+.zoom-img-chrome-extension .zoom-plus-btn,
+.zoom-img-chrome-extension .zoom-minus-btn,
+.zoom-img-chrome-extension .zoom-close-btn {
+    width: 30px;
+    height: 30px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 5px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 16px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.zoom-img-chrome-extension .zoom-plus-btn:hover,
+.zoom-img-chrome-extension .zoom-minus-btn:hover,
+.zoom-img-chrome-extension .zoom-close-btn:hover {
+    opacity: 1;
+}
+
+.zoom-plus-btn {
+    background-image: url(icon-plus.png);
+}
+
+.zoom-minus-btn {
+    background-image: url(icon-minus.png);
+    margin: 0 10px;
+}
+
+.zoom-close-btn {
+    background-image: url(icon-close.png);
+}
