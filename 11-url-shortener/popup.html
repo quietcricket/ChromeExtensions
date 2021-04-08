@@ -17,6 +17,10 @@
             margin-bottom: 5px;
         }
 
+        .entry:first-child {
+            display: none;
+        }
+
         .entry-hoder h3 {
             text-align: center;
         }
@@ -34,17 +38,24 @@
         }
 
         a {
-            color:gray;
+            color: gray;
         }
-        h2{
+
+        h2 {
             text-align: center;
             color: deepskyblue;
+        }
+
+        button {
+            user-select: none;
+            margin-right: 5px;
+            vertical-align: middle;
         }
     </style>
 </head>
 
 <body>
-    <h2>URL generated and coppied successfully.</h2>
+    <h2>Generating...</h2>
     <div class="entry-list"></div>
 
     <script src="popup.js"></script>
