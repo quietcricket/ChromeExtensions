@@ -1,78 +1,118 @@
-let ele = document.createElement('link');
-ele.setAttribute('href', chrome.runtime.getURL('injection.css'));
-ele.setAttribute('rel', "stylesheet");
-document.body.appendChild(ele);
-
-let alert = document.createElement('div');
-alert.id = 'tweet-capture-complete';
-alert.className = 'init';
-alert.innerHTML = 'Image captured successfully into the clipboard.';
-document.body.appendChild(alert);
-
-
-let topImage;
-let bottomImage;
+let hideElements = ['[href="/compose/tweet"]'];
+let imageParts = [];
 let article;
-let articleBounds;
+let bounds;
+
+let alertBox = document.createElement("div");
+document.body.appendChild(alertBox);
+initAlert();
+
+function initAlert() {
+  alertBox.innerHTML = "Image captured successfully into the clipboard.";
+  let styles = {
+    fontFamily: "system-ui",
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "white",
+    padding: "0.7em 1em",
+    background: "rgb(29,161,242)",
+    position: "fixed",
+    width: "100%",
+    transform: "translate(0,-100%)",
+    textAlign: "center",
+    top: 0,
+    zIndex: 10,
+  };
+  for (let k in styles) alertBox.style[k] = styles[k];
+  setTimeout(() => (alertBox.style.cssText += "transition:transform 0.5s!important"), 100);
+}
 
 chrome.runtime.onMessage.addListener((message, sender, response) => {
-    switch (message.action) {
-        case 'adjust-layout':
-            adjustLayout();
-            break;
+  article = null;
+  let ele = getSelection().getRangeAt(0).startContainer.parentElement;
+  // Find the article element
+  while (ele.parentNode) {
+    if (ele.getAttribute("role") == "article") {
+      article = ele;
+      break;
     }
+    ele = ele.parentNode;
+  }
+  // If article element cannot be found, don't do anything
+  if (!article) return;
+  // Hide elements don't want to show in the screenshots
+  // e.g. hide comment/reply box because it shows the current user's profile photo
+  for (let selector of hideElements) {
+    article.querySelectorAll(selector).forEach(ele => {
+      ele.setAttribute("data-display", ele.style.display);
+      ele.style.display = "none";
+    });
+  }
+
+  bounds = article.getBoundingClientRect();
+
+  if (bounds.top < 200) window.scrollBy({ left: 0, top: bounds.top - 200 });
+  // make it a bit more narrower, closer to mobile view
+  article.style.width = document.location.hostname == "www.facebook.com" ? "500px" : "385px";
+
+  setTimeout(() => {
+    bounds = article.getBoundingClientRect();
+    imageParts = [
+      {
+        bottom: Math.min(bounds.bottom, window.innerHeight),
+        height: Math.min(window.innerHeight - bounds.top, bounds.height),
+      },
+    ];
+    imagesLoaded = 0;
+    chrome.runtime.sendMessage({ action: "capture" }, captureImage);
+  }, 500);
 });
 
-function adjustLayout() {
-    for (let a of document.querySelectorAll('article')) {
-        let b = a.getBoundingClientRect();
-        if (b.y > 30) {
-            article = a;
-            break;
-        }
-    }
-    article.style.width = "380px";
-    let replyBtn = article.querySelector('a[href^="/compose/tweet"]');
-    if (replyBtn) replyBtn.parentNode.parentNode.removeChild(replyBtn.parentNode);
-
-    articleBounds = article.getBoundingClientRect();
-    setTimeout(() => {
-        chrome.runtime.sendMessage({ action: 'capture' }, parseImage);
-    }, 300);
+function captureImage(data) {
+  let part = imageParts[0];
+  part.img = document.createElement("img");
+  part.img.className = "social-capture";
+  part.img.src = data;
+  part.img.style.left = (imageParts.length - 1) * 420 + "px";
+  part.img.onload = joinImages;
+  if (part.bottom == bounds.bottom) return;
+  let y = Math.min(innerHeight - 200, bounds.bottom - part.bottom);
+  window.scrollBy({ left: 0, top: y });
+  imageParts.unshift({ bottom: Math.min(bounds.bottom, part.bottom + y), height: y });
+  setTimeout(() => chrome.runtime.sendMessage({ action: "capture" }, captureImage), 500);
 }
 
-function parseImage(data) {
-    topImage = document.createElement('img');
-    bottomImage = document.createElement('img');
-    // Find the bounds of current focusing article
-    // If the user never scroll down, the system will take the first article
-    // If the user scroll down, especially in home timeline, the system will take the top visible one
-    // If the tweet cannot be displayed within the browser, 
-    // scroll down the page a bit and capture the remaining part
-    // Haven't seen any tweet longer than 2 screen height, it only scroll down once.
-    if (articleBounds.height + articleBounds.y > window.innerHeight) {
-        window.scrollBy({ left: 0, top: articleBounds.height + articleBounds.y - window.innerHeight });
-        bottomImage.onload = drawTweet;
-        topImage.onload = function() {
-            chrome.runtime.sendMessage({ action: 'capture' }, data => bottomImage.src = data);
-        }
-    } else {
-        topImage.onload = drawTweet;
-    }
-    topImage.src = data;
-}
+function joinImages() {
+  // Check if all images are loaded
+  for (let part of imageParts) {
+    if (!part.img || part.img.width == 0) return;
+  }
+  let canvas = document.createElement("canvas");
+  let context = canvas.getContext("2d");
+  let scaling = 2;
+  let margin = 3;
+  canvas.width = bounds.width * scaling - margin * 2;
+  canvas.height = bounds.height * scaling - margin * 2;
 
-function drawTweet() {
-    let canvas = document.createElement('canvas');
-    canvas.style.position = 'fixed';
-    canvas.style.zIndex = 999;
-    canvas.width = articleBounds.width * devicePixelRatio;
-    canvas.height = articleBounds.height * devicePixelRatio;
-    if (bottomImage.src) canvas.getContext('2d').drawImage(bottomImage, -articleBounds.x * devicePixelRatio, (articleBounds.height - window.innerHeight) * devicePixelRatio);
-    canvas.getContext('2d').drawImage(topImage, -articleBounds.x * devicePixelRatio, -articleBounds.y * devicePixelRatio);
-    canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]));
-    // document.body.prepend(canvas);
-    article.style.width = '100%';
-    alert.className = 'show';
-    setTimeout(() => alert.className = '', 3000);
+  let dw = window.innerWidth * scaling;
+  let dh = window.innerHeight * scaling;
+  if (imageParts.length == 1) {
+    context.drawImage(imageParts[0].img, -bounds.left * scaling - margin, -bounds.top * scaling - margin, dw, dh);
+  } else {
+    let y = canvas.height;
+    for (let part of imageParts) {
+      context.drawImage(part.img, -bounds.left * scaling - margin, y - innerHeight * scaling - margin, dw, dh);
+      y -= part.height * scaling;
+    }
+  }
+  canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]));
+  alertBox.style.transform = "translate(0,0)";
+  setTimeout(() => (alertBox.style.transform = "translate(0,-100%)"), 3000);
+
+  article.style.width = "100%";
+  for (let selector of hideElements) {
+    article.querySelectorAll(selector).forEach(ele => {
+      ele.style.display = ele.getAttribute("data-display");
+    });
+  }
 }
