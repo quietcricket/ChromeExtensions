@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     ];
     imagesLoaded = 0;
     chrome.runtime.sendMessage({ action: "capture" }, captureImage);
-  }, 500);
+  }, 1000);
 });
 
 function captureImage(data) {

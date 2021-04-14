@@ -1,6 +1,6 @@
 {
     "name": "Capture Tweet",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "manifest_version": 2,
     "description": "Make a screen grab of a tweet. Right click at a tweet and select the \"Capture\" option.",
     "icons": {
