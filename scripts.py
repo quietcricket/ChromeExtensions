@@ -30,7 +30,7 @@ def resize_icon(folder):
 
 
 def zip(foldername):
-    shutil.make_archive(os.path.expanduser('~/Desktop/'+foldername), 'zip', foldername)
+    shutil.make_archive(foldername, 'zip', foldername)
 
 
 def server(foldername):
