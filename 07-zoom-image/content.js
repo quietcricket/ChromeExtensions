@@ -56,6 +56,28 @@ function getViewer() {
             holder.oy += evt.clientY - img.oy;
             img.style.cursor = 'grab';
         });
+        viewer.addEventListener('wheel', evt => {
+            const scale = 0.1;
+            if (evt.deltaY > 0) {
+                img.width *= (1 + scale);
+                img.height *= (1 + scale);
+            } else {
+                img.width *= (1 - scale);
+                img.height *= (1 - scale);
+            }
+            evt.stopPropagation();
+            evt.preventDefault();
+        });
+
+        window.addEventListener('keydown', evt => {
+            if (evt.key === 'Escape') {
+                viewer.style.display = 'none';
+                holder.innerHTML = '';
+                holder.style.transform = '';
+                holder.ox = 0;
+                holder.oy = 0;
+            }
+        });
     }
     viewer.style.display = 'block'
     return viewer;
@@ -63,7 +85,7 @@ function getViewer() {
 
 function showImage(src) {
     img = new Image();
-    img.onload = function(evt) {
+    img.onload = function (evt) {
         img.ow = img.width;
         img.oh = img.height;
         let scale = Math.min((innerWidth - 60) / img.width, (innerHeight - 60) / img.height);
